@@ -1,27 +1,41 @@
 import "./style.css";
 import * as THREE from "three";
 
-console.log(THREE.Scene);
+const canvas = document.querySelector("#webgl") as HTMLCanvasElement;
 
 // Create a scene
 const scene = new THREE.Scene();
 
-// Create a geometry
+// objects
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-// Create a material
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-// Create a mesh
-const cube = new THREE.Mesh(geometry, material);
-// Add the mesh to the scene
-scene.add(cube);
+const material = new THREE.MeshBasicMaterial({
+  color: 0xff0000,
+  // wireframe: true,
+});
+const cubeMesh = new THREE.Mesh(geometry, material);
+scene.add(cubeMesh);
 
 // Create a camera
+const sizes = {
+  width: 800,
+  height: 600,
+};
 const camera = new THREE.PerspectiveCamera(
   75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
+  sizes.width / sizes.height
+  // 0.1,
+  // 100
 );
-// Set the camera position
-camera.position.z = 5;
-// Create a renderer
+camera.position.z = 3;
+scene.add(camera);
+
+// renderer
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas,
+  // alpha: true,
+});
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(window.devicePixelRatio);
+// renderer.setClearColor(0x000000, 0); // Set the background color to transparent
+
+renderer.render(scene, camera);
