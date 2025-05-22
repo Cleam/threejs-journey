@@ -1,5 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
+import gsap from "gsap";
 
 const canvas = document.querySelector("#webgl") as HTMLCanvasElement;
 
@@ -55,8 +56,17 @@ const clock = new THREE.Clock();
 
 function animate() {
   const elapsedTime = clock.getElapsedTime(); // seconds.
-  cube.position.x = Math.sin(elapsedTime);
-  cube.position.y = Math.cos(elapsedTime);
+  // gsap.to(cube.position, {
+  //   x: Math.sin(elapsedTime),
+  //   y: Math.cos(elapsedTime),
+  // });
+  // camera.position.x = Math.sin(elapsedTime);
+  // camera.position.y = Math.cos(elapsedTime);
+  gsap.to(camera.position, {
+    x: Math.sin(elapsedTime) * 2,
+    y: Math.cos(elapsedTime) * 2,
+  });
+  camera.lookAt(cube.position); // 相机朝向立方体
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
